@@ -1,25 +1,56 @@
-var builder = WebApplication.CreateBuilder(args);
+using ClubBrugge.Erp.Application;
+using ClubBrugge.Erp.Application.DataSeed;
+using ClubBrugge.Erp.Application.Matches.Queries;
+using ClubBrugge.Erp.Domain.Dtos;
+using Microsoft.EntityFrameworkCore;
 
-// Add services to the container.
-
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+internal class Program
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    private static async Task Main(string[] args)
+    {
+        var builder = WebApplication.CreateBuilder(args);
+
+        // Add services to the container.
+
+        builder.Services.AddControllers();
+        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+        builder.Services.AddEndpointsApiExplorer();
+
+        builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+        // Register GraphQL types and add the GraphQL server
+        builder.Services
+            .AddGraphQLServer()
+            .AddQueryType<GetMatches>()
+            .AddType<ClubBrugge.Erp.Domain.Dtos.MatchType>()
+            .AddType<CompetitionType>()
+            .AddType<SeasonType>()
+            .AddType<HomeTeamType>()
+            .AddType<AwayTeamType>()
+            .AddType<CompetitionStageType>()
+            .AddType<StadiumType>()
+            .AddType<RefereeType>()
+            .AddType<CountryType>()
+            .AddType<ManagerType>();
+
+        var app = builder.Build();
+        //using (var scope = app.Services.CreateScope())
+        //{
+        //    ApplicationDbContext dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        //    await DataSeeder.LoadMatchDataAsync(dbContext);
+        //}
+
+        app.UseHttpsRedirection();
+
+        app.UseAuthorization();
+
+        app.UseRouting();
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapGraphQL();
+        });
+
+        app.Run();
+    }
 }
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();
