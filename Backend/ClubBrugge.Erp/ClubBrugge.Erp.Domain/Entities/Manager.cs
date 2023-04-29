@@ -6,6 +6,9 @@ namespace ClubBrugge.Erp.Domain.Entities
     public class Manager
     {
         [JsonIgnore]
+        public int Id { get; set; }
+
+        [JsonPropertyName("id")]
         public int ManagerId { get; set; }
 
         [JsonPropertyName("name")]

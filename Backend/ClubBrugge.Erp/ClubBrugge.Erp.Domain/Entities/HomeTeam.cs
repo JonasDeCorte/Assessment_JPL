@@ -5,6 +5,9 @@ namespace ClubBrugge.Erp.Domain.Entities
     public class HomeTeam
     {
         [JsonIgnore]
+        public int Id { get; set; }
+
+        [JsonPropertyName("home_team_id")]
         public int HomeTeamId { get; set; }
 
         [JsonPropertyName("home_team_name")]

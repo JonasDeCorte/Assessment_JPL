@@ -6,6 +6,8 @@ namespace ClubBrugge.Erp.Domain.Entities
     public class Match
     {
         [JsonIgnore]
+        public int Id { get; set; }
+        [JsonPropertyName("match_id")]
         public int MatchId { get; set; }
 
         [JsonPropertyName("match_date")]

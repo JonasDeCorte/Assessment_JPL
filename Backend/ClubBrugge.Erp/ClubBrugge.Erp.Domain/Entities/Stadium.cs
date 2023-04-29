@@ -12,6 +12,9 @@ namespace ClubBrugge.Erp.Domain.Entities
     public class Stadium
     {
         [JsonIgnore]
+        public int Id { get; set; }
+
+        [JsonPropertyName("id")]
         public int StadiumId { get; set; }
 
         [JsonPropertyName("name")]

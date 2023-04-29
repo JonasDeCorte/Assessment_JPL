@@ -11,6 +11,9 @@ namespace ClubBrugge.Erp.Domain.Entities
     public class Competition
     {
         [JsonIgnore]
+        public int Id { get; set; }
+
+        [JsonPropertyName("competition_id")]
         public int CompetitionId { get; set; }
 
         [JsonPropertyName("competition_name")]

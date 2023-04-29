@@ -10,7 +10,9 @@ namespace ClubBrugge.Erp.Domain.Entities
     public class AwayTeam
     {
         [JsonIgnore]
+        public int Id { get; set; }
 
+        [JsonPropertyName("away_team_id")]
         public int AwayTeamId { get; set; }
 
         [JsonPropertyName("away_team_name")]

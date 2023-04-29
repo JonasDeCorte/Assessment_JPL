@@ -6,6 +6,9 @@ namespace ClubBrugge.Erp.Domain.Entities
     public class Season
     {
         [JsonIgnore]
+        public int Id { get; set; }
+
+        [JsonPropertyName("season_id")]
         public int SeasonId { get; set; }
 
         [JsonPropertyName("season_name")]

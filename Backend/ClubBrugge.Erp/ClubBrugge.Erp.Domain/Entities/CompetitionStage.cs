@@ -8,7 +8,12 @@ namespace ClubBrugge.Erp.Domain.Entities
         [JsonIgnore]
         public int Id { get; set; }
 
+        [JsonPropertyName("id")]
+        public int CompetitionStageId { get; set; }
+
+        [JsonPropertyName("name")]
         public string Name { get; set; }
+
         public List<Match> Matches { get; set; }
     }
 }

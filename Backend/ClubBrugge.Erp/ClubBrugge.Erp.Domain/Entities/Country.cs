@@ -6,6 +6,9 @@ namespace ClubBrugge.Erp.Domain.Entities
     public class Country
     {
         [JsonIgnore]
+        public int Id { get; set; }
+
+        [JsonPropertyName("id")]
         public int CountryId { get; set; }
 
         [JsonPropertyName("name")]

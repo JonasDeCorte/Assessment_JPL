@@ -11,6 +11,9 @@ namespace ClubBrugge.Erp.Domain.Entities
     public class Referee
     {
         [JsonIgnore]
+        public int Id { get; set; }
+
+        [JsonPropertyName("id")]
         public int RefereeId { get; set; }
 
         [JsonPropertyName("name")]
