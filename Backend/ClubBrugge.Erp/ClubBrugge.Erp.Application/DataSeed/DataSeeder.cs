@@ -31,10 +31,10 @@ namespace ClubBrugge.Erp.Application.DataSeed
                     continue;
                 }
 
-                var existingCountry = await AddOrUpdateCountry(dbContext, match.HomeTeam.Country.Name);
+                var existingCountry = await AddOrUpdateCountry(dbContext, match.HomeTeam.Country.Name, match.HomeTeam.Country.CountryId);
                 await AddOrUpdateCompetition(dbContext, match);
                 await AddOrUpdateCompetitionStage(dbContext, match);
-                await AddOrUpdateSeason(dbContext, match, existingCountry);
+                await AddOrUpdateSeason(dbContext, match);
                 await AddOrUpdateStadium(dbContext, match, existingCountry);
                 await AddOrUpdateReferee(dbContext, match, existingCountry);
                 await AddOrUpdateHomeTeam(dbContext, match, existingCountry);
@@ -45,15 +45,46 @@ namespace ClubBrugge.Erp.Application.DataSeed
             }
         }
 
-        private static async Task<Country> AddOrUpdateCountry(ApplicationDbContext dbContext, string countryName)
+        public static async Task LoadMatchPlayerStatsDataAsync(ApplicationDbContext dbContext)
+        {
+            var basePath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "..", "ClubBrugge.Erp.Application", "DataSeed", "matches");
+            var matchesDirectories = Directory.GetDirectories(basePath);
+
+            foreach (var matchDirectory in matchesDirectories)
+            {
+                var infoJsonFile = System.IO.Path.Combine(matchDirectory, "stats.json");
+
+                if (!File.Exists(infoJsonFile))
+                {
+                    continue;
+                }
+
+                var matchPlayerJson = await File.ReadAllTextAsync(infoJsonFile);
+                var matchPlayers = JsonSerializer.Deserialize<MatchPlayerStats[]>(matchPlayerJson);
+
+                foreach (var item in matchPlayers)
+                {
+                    var existingmatchPlayer = await dbContext.MatchPlayerStats.FindAsync(item.Id);
+                    if (existingmatchPlayer != null)
+                    {
+                        continue;
+                    }
+
+                    await dbContext.MatchPlayerStats.AddAsync(item);
+                    await dbContext.SaveChangesAsync();
+                }
+            }
+        }
+
+        private static async Task<Country> AddOrUpdateCountry(ApplicationDbContext dbContext, string countryName, int countryId)
         {
             var existingCountry = await dbContext.Countries
-                .Where(x => x.Name.Equals(countryName))
+                .Where(x => x.CountryId.Equals(countryId))
                 .FirstOrDefaultAsync();
 
             if (existingCountry == null)
             {
-                existingCountry = new Country { Name = countryName };
+                existingCountry = new Country { CountryId = countryId, Name = countryName };
                 await dbContext.Countries.AddAsync(existingCountry);
                 await dbContext.SaveChangesAsync();
             }
@@ -65,58 +96,63 @@ namespace ClubBrugge.Erp.Application.DataSeed
         {
             var competition = new Competition
             {
+                CompetitionId = match.Competition.CompetitionId,
                 Name = match.Competition.Name,
                 CountryName = match.Competition.CountryName,
             };
-            var existingCompetition = await AddOrUpdateEntity(dbContext, competition, x => x.Name.Equals(competition.Name));
-            match.CompetitionId = existingCompetition.CompetitionId;
+            var existingCompetition = await AddOrUpdateEntity(dbContext, competition, x => x.CompetitionId.Equals(competition.CompetitionId));
+            match.CompetitionId = existingCompetition.Id;
         }
 
         private static async Task AddOrUpdateCompetitionStage(ApplicationDbContext dbContext, Match match)
         {
             var competitionStage = new CompetitionStage
             {
-                Name = match.Competition.Name,
+                CompetitionStageId = match.CompetitionStage.CompetitionStageId,
+                Name = match.CompetitionStage.Name,
             };
-            var existingCompetitionStage = await AddOrUpdateEntity(dbContext, competitionStage, x => x.Name.Equals(competitionStage.Name));
+            var existingCompetitionStage = await AddOrUpdateEntity(dbContext, competitionStage, x => x.CompetitionStageId.Equals(competitionStage.CompetitionStageId));
             match.CompetitionStageId = existingCompetitionStage.Id;
             match.CompetitionStage = existingCompetitionStage;
         }
 
-        private static async Task AddOrUpdateSeason(ApplicationDbContext dbContext, Match match, Country existingCountry)
+        private static async Task AddOrUpdateSeason(ApplicationDbContext dbContext, Match match)
         {
             var season = new Season
             {
+                SeasonId = match.Season.SeasonId,
                 Name = match.Season.Name,
             };
-            var existingSeason = await AddOrUpdateEntity(dbContext, season, x => x.Name.Equals(season.Name));
-            match.SeasonId = existingSeason.SeasonId;
+            var existingSeason = await AddOrUpdateEntity(dbContext, season, x => x.SeasonId.Equals(season.SeasonId));
+            match.SeasonId = existingSeason.Id;
         }
 
         private static async Task AddOrUpdateStadium(ApplicationDbContext dbContext, Match match, Country existingCountry)
         {
             var stadium = new Stadium
             {
-                Name = match.Competition.Name,
+                StadiumId = match.Stadium.StadiumId,
+                Name = match.Stadium.Name,
             };
             var existingStadium = await dbContext.Stadiums
-                .Where(x => x.Name.Equals(stadium.Name))
+                .Where(x => x.StadiumId.Equals(stadium.StadiumId))
                 .FirstOrDefaultAsync();
 
-            string stadiumCountryName = match.HomeTeam.Country.Name;
+            int stadiumCountryId = match.Stadium.Country.CountryId;
+            string stadiumCountryName = match.Stadium.Country.Name;
             var existingStadiumCountry = await dbContext.Countries
-              .Where(x => x.Name.Equals(stadiumCountryName))
+              .Where(x => x.CountryId.Equals(stadiumCountryId))
               .FirstOrDefaultAsync();
             if (existingStadiumCountry == null)
             {
-                var newCountry = new Country { Name = stadiumCountryName };
+                var newCountry = new Country { CountryId = stadiumCountryId, Name = stadiumCountryName };
                 await dbContext.Countries.AddAsync(newCountry);
                 await dbContext.SaveChangesAsync();
-                stadium.CountryId = newCountry.CountryId;
+                stadium.CountryId = newCountry.Id;
             }
             else
             {
-                stadium.CountryId = existingCountry.CountryId;
+                stadium.CountryId = existingCountry.Id;
             }
             await dbContext.SaveChangesAsync();
 
@@ -127,7 +163,7 @@ namespace ClubBrugge.Erp.Application.DataSeed
             }
             else
             {
-                match.StadiumId = existingStadium.StadiumId;
+                match.StadiumId = existingStadium.Id;
             }
         }
 
@@ -135,23 +171,25 @@ namespace ClubBrugge.Erp.Application.DataSeed
         {
             var referee = new Referee
             {
-                Name = match.Competition.Name,
+                RefereeId = match.Referee.RefereeId,
+                Name = match.Referee.Name,
             };
 
-            string refereeCountryName = match.HomeTeam.Country.Name;
+            int refereeCountryId = match.Referee.Country.CountryId;
+            string refereeCountryName = match.Referee.Country.Name;
             var existingRefereeCountry = await dbContext.Countries
-              .Where(x => x.Name.Equals(refereeCountryName))
+              .Where(x => x.CountryId.Equals(refereeCountryId))
               .FirstOrDefaultAsync();
             if (existingRefereeCountry == null)
             {
-                var newCountry = new Country { Name = refereeCountryName };
+                var newCountry = new Country { CountryId = refereeCountryId, Name = refereeCountryName };
                 await dbContext.Countries.AddAsync(newCountry);
                 await dbContext.SaveChangesAsync();
-                referee.CountryId = newCountry.CountryId;
+                referee.CountryId = newCountry.Id;
             }
             else
             {
-                referee.CountryId = existingCountry.CountryId;
+                referee.CountryId = existingCountry.Id;
             }
             await dbContext.SaveChangesAsync();
 
@@ -173,25 +211,27 @@ namespace ClubBrugge.Erp.Application.DataSeed
         {
             var homeTeam = new HomeTeam
             {
+                HomeTeamId = match.HomeTeam.HomeTeamId,
                 HomeTeamName = match.HomeTeam.HomeTeamName,
                 HomeTeamGender = match.HomeTeam.HomeTeamGender,
                 HomeTeamYouth = match.HomeTeam.HomeTeamYouth,
             };
 
+            int homeTeamCountryId = match.HomeTeam.Country.CountryId;
             string homeTeamCountryName = match.HomeTeam.Country.Name;
             var existingHomeCountry = await dbContext.Countries
-              .Where(x => x.Name.Equals(homeTeamCountryName))
+              .Where(x => x.CountryId.Equals(homeTeamCountryId))
               .FirstOrDefaultAsync();
             if (existingHomeCountry == null)
             {
-                var newCountry = new Country { Name = homeTeamCountryName };
+                var newCountry = new Country { CountryId = homeTeamCountryId, Name = homeTeamCountryName };
                 await dbContext.Countries.AddAsync(newCountry);
                 await dbContext.SaveChangesAsync();
-                homeTeam.CountryId = newCountry.CountryId;
+                homeTeam.CountryId = newCountry.Id;
             }
             else
             {
-                homeTeam.CountryId = existingCountry.CountryId;
+                homeTeam.CountryId = existingCountry.Id;
             }
 
             var existingHomeTeam = await dbContext.HomeTeams
@@ -204,32 +244,35 @@ namespace ClubBrugge.Erp.Application.DataSeed
             }
             else
             {
-                match.HomeTeamId = existingHomeTeam.HomeTeamId;
+                match.HomeTeamId = existingHomeTeam.Id;
             }
 
             foreach (var HTmanager in match.HomeTeam.HomeTeamManagers)
             {
                 var manager = new Manager
                 {
+                    ManagerId = HTmanager.ManagerId,
                     DateOfBirth = HTmanager.DateOfBirth,
                     Name = HTmanager.Name,
                     Nickname = HTmanager.Nickname,
                 };
 
                 string htManagerCountryName = HTmanager.Country.Name;
+                int htManagerCountryId = HTmanager.Country.CountryId;
+
                 var existinghtManagerCountry = await dbContext.Countries
-                  .Where(x => x.Name.Equals(htManagerCountryName))
+                  .Where(x => x.CountryId.Equals(htManagerCountryId))
                   .FirstOrDefaultAsync();
                 if (existinghtManagerCountry == null)
                 {
-                    var x = new Country { Name = htManagerCountryName };
+                    var x = new Country { CountryId = htManagerCountryId, Name = htManagerCountryName };
                     await dbContext.Countries.AddAsync(x);
                     await dbContext.SaveChangesAsync();
-                    manager.CountryId = x.CountryId;
+                    manager.CountryId = x.Id;
                 }
                 else
                 {
-                    manager.CountryId = existingCountry.CountryId;
+                    manager.CountryId = existingCountry.Id;
                 }
 
                 var existingHTmanager = await dbContext.Managers
@@ -253,25 +296,28 @@ namespace ClubBrugge.Erp.Application.DataSeed
         {
             var awayTeam = new AwayTeam
             {
+                AwayTeamId = match.AwayTeam.AwayTeamId,
                 AwayTeamName = match.AwayTeam.AwayTeamName,
                 AwayTeamGender = match.AwayTeam.AwayTeamGender,
                 AwayTeamYouth = match.AwayTeam.AwayTeamYouth,
             };
 
             string awayTeamCountryName = match.AwayTeam.Country.Name;
+            int awayTeamCountryId = match.AwayTeam.Country.CountryId;
+
             var existingAwayCountry = await dbContext.Countries
-              .Where(x => x.Name.Equals(awayTeamCountryName))
+              .Where(x => x.CountryId.Equals(awayTeamCountryId))
               .FirstOrDefaultAsync();
             if (existingAwayCountry == null)
             {
-                var newCountry = new Country { Name = awayTeamCountryName };
+                var newCountry = new Country { CountryId = awayTeamCountryId, Name = awayTeamCountryName };
                 await dbContext.Countries.AddAsync(newCountry);
                 await dbContext.SaveChangesAsync();
-                awayTeam.CountryId = newCountry.CountryId;
+                awayTeam.CountryId = newCountry.Id;
             }
             else
             {
-                awayTeam.CountryId = existingCountry.CountryId;
+                awayTeam.CountryId = existingCountry.Id;
             }
             await dbContext.SaveChangesAsync();
 
@@ -286,31 +332,34 @@ namespace ClubBrugge.Erp.Application.DataSeed
             }
             else
             {
-                match.AwayTeamId = existingAwayTeam.AwayTeamId;
+                match.AwayTeamId = existingAwayTeam.Id;
             }
 
             foreach (var Awaymanager in match.AwayTeam.AwayTeamManagers)
             {
                 var manager = new Manager
                 {
+                    ManagerId = Awaymanager.ManagerId,
                     DateOfBirth = Awaymanager.DateOfBirth,
                     Name = Awaymanager.Name,
                     Nickname = Awaymanager.Nickname,
                 };
                 string atManagerCountryName = Awaymanager.Country.Name;
+                int atManagerCountryId = Awaymanager.Country.CountryId;
+
                 var existingatManagerCountry = await dbContext.Countries
-                  .Where(x => x.Name.Equals(atManagerCountryName))
+                  .Where(x => x.CountryId.Equals(atManagerCountryId))
                   .FirstOrDefaultAsync();
                 if (existingatManagerCountry == null)
                 {
-                    var x = new Country { Name = atManagerCountryName };
+                    var x = new Country { CountryId = atManagerCountryId, Name = atManagerCountryName };
                     await dbContext.Countries.AddAsync(x);
                     await dbContext.SaveChangesAsync();
-                    manager.CountryId = x.CountryId;
+                    manager.CountryId = x.Id;
                 }
                 else
                 {
-                    manager.CountryId = existingCountry.CountryId;
+                    manager.CountryId = existingCountry.Id;
                 }
                 await dbContext.SaveChangesAsync();
 
