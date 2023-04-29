@@ -1,0 +1,68 @@
+.matches {
+    padding: 2rem;
+  }
+  
+  .matches__header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .grid-wrapper {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 1rem;
+  }
+  
+  .matches__match {
+    background-color: #f5f5f5;
+    border-radius: 0.5rem;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    transition: box-shadow 0.3s ease-in-out;
+  }
+  
+  .matches__match:hover {
+    box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  .matches__teams {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #d9d9d9;
+    margin-bottom: 1rem;
+  }
+  
+  .matches__team {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0;
+    color: #222222;
+  }
+  
+  .matches__info {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
+  }
+  
+  .matches__date,
+  .matches__kickoff {
+    font-size: 0.875rem;
+    margin: 0;
+    color: #999999;
+  }
+  
+  .matches__competition,
+  .matches__season,
+  .matches__week,
+  .matches__stage,
+  .matches__stadium,
+  .matches__referee {
+    font-size: 0.875rem;
+    margin: 0;
+    margin-top: 0.5rem;
+    color: #666666;
+  }
+  
