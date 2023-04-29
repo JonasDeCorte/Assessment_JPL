@@ -18,7 +18,15 @@ internal class Program
 
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
+        builder.Services.AddCors(options =>
+        {
+            options.AddDefaultPolicy(builder =>
+            {
+                builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            });
+        });
         // Register GraphQL types and add the GraphQL server
         builder.Services
             .AddGraphQLServer()
@@ -44,7 +52,7 @@ internal class Program
         app.UseHttpsRedirection();
 
         app.UseAuthorization();
-
+        app.UseCors();
         app.UseRouting();
         app.UseEndpoints(endpoints =>
         {
