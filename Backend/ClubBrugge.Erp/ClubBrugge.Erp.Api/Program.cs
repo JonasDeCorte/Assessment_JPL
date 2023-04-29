@@ -1,5 +1,4 @@
 using ClubBrugge.Erp.Application;
-using ClubBrugge.Erp.Application.DataSeed;
 using ClubBrugge.Erp.Application.Matches.Queries;
 using ClubBrugge.Erp.Domain.Dtos;
 using Microsoft.EntityFrameworkCore;
@@ -30,7 +29,7 @@ internal class Program
         // Register GraphQL types and add the GraphQL server
         builder.Services
             .AddGraphQLServer()
-            .AddQueryType<GetMatches>()
+            .AddQueryType<RootQuery>()
             .AddType<ClubBrugge.Erp.Domain.Dtos.MatchType>()
             .AddType<CompetitionType>()
             .AddType<SeasonType>()
@@ -40,13 +39,17 @@ internal class Program
             .AddType<StadiumType>()
             .AddType<RefereeType>()
             .AddType<CountryType>()
-            .AddType<ManagerType>();
+            .AddType<ManagerType>()
+            .AddType<MatchPlayerStatsType>();
 
         var app = builder.Build();
+
+        // Seeder
         //using (var scope = app.Services.CreateScope())
         //{
         //    ApplicationDbContext dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
         //    await DataSeeder.LoadMatchDataAsync(dbContext);
+        //    await DataSeeder.LoadMatchPlayerStatsDataAsync(dbContext);
         //}
 
         app.UseHttpsRedirection();
