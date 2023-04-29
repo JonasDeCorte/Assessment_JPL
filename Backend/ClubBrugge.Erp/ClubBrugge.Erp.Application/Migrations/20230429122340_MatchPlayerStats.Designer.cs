@@ -4,6 +4,7 @@ using ClubBrugge.Erp.Application;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClubBrugge.Erp.Application.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230429122340_MatchPlayerStats")]
+    partial class MatchPlayerStats
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -302,31 +304,31 @@ namespace ClubBrugge.Erp.Application.Migrations
 
             modelBuilder.Entity("ClubBrugge.Erp.Domain.Entities.MatchPlayerStats", b =>
                 {
-                    b.Property<int?>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("MatchId")
+                    b.Property<int>("MatchId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PlayerId")
+                    b.Property<int>("PlayerId")
                         .HasColumnType("int");
 
-                    b.Property<double?>("PlayerMatch360Minutes")
+                    b.Property<double>("PlayerMatch360Minutes")
                         .HasColumnType("float");
 
-                    b.Property<double?>("PlayerMatchAerialRatio")
+                    b.Property<double>("PlayerMatchAerialRatio")
                         .HasColumnType("float");
 
-                    b.Property<int?>("PlayerMatchAerials")
+                    b.Property<int>("PlayerMatchAerials")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PlayerMatchAggressiveActions")
+                    b.Property<int>("PlayerMatchAggressiveActions")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PlayerMatchAssists")
+                    b.Property<int>("PlayerMatchAssists")
                         .HasColumnType("int");
 
                     b.Property<double?>("PlayerMatchAverageF3SpaceReceivedIn")
@@ -344,7 +346,7 @@ namespace ClubBrugge.Erp.Application.Migrations
                     b.Property<double?>("PlayerMatchAverageSpaceReceivedIn")
                         .HasColumnType("float");
 
-                    b.Property<int?>("PlayerMatchBackwardPasses")
+                    b.Property<int>("PlayerMatchBackwardPasses")
                         .HasColumnType("int");
 
                     b.Property<int?>("PlayerMatchBallReceipts360")
@@ -359,55 +361,55 @@ namespace ClubBrugge.Erp.Application.Migrations
                     b.Property<int?>("PlayerMatchBallReceiptsInSpace5")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PlayerMatchBallRecoveries")
+                    b.Property<int>("PlayerMatchBallRecoveries")
                         .HasColumnType("int");
 
-                    b.Property<double?>("PlayerMatchBoxCrossRatio")
+                    b.Property<double>("PlayerMatchBoxCrossRatio")
                         .HasColumnType("float");
 
-                    b.Property<double?>("PlayerMatchChallengeRatio")
+                    b.Property<double>("PlayerMatchChallengeRatio")
                         .HasColumnType("float");
 
-                    b.Property<int?>("PlayerMatchClearances")
+                    b.Property<int>("PlayerMatchClearances")
                         .HasColumnType("int");
 
-                    b.Property<double?>("PlayerMatchCounterpressureDurationAvg")
+                    b.Property<double>("PlayerMatchCounterpressureDurationAvg")
                         .HasColumnType("float");
 
-                    b.Property<double?>("PlayerMatchCounterpressureDurationTotal")
+                    b.Property<double>("PlayerMatchCounterpressureDurationTotal")
                         .HasColumnType("float");
 
-                    b.Property<int?>("PlayerMatchCounterpressuredActionFails")
+                    b.Property<int>("PlayerMatchCounterpressuredActionFails")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PlayerMatchCounterpressures")
+                    b.Property<int>("PlayerMatchCounterpressures")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PlayerMatchCrosses")
+                    b.Property<int>("PlayerMatchCrosses")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PlayerMatchCrossesIntoBox")
+                    b.Property<int>("PlayerMatchCrossesIntoBox")
                         .HasColumnType("int");
 
                     b.Property<double?>("PlayerMatchCrossingRatio")
                         .HasColumnType("float");
 
-                    b.Property<int?>("PlayerMatchDeepCompletions")
+                    b.Property<int>("PlayerMatchDeepCompletions")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PlayerMatchDeepProgressions")
+                    b.Property<int>("PlayerMatchDeepProgressions")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PlayerMatchDispossessions")
+                    b.Property<int>("PlayerMatchDispossessions")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PlayerMatchDribbledPast")
+                    b.Property<int>("PlayerMatchDribbledPast")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PlayerMatchDribbles")
+                    b.Property<int>("PlayerMatchDribbles")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PlayerMatchDribblesFaced")
+                    b.Property<int>("PlayerMatchDribblesFaced")
                         .HasColumnType("int");
 
                     b.Property<double?>("PlayerMatchF3AverageLbpToSpaceDistance")
@@ -482,7 +484,7 @@ namespace ClubBrugge.Erp.Application.Migrations
                     b.Property<int?>("PlayerMatchFhalfBallReceiptsInSpace5")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PlayerMatchFhalfBallRecoveries")
+                    b.Property<int>("PlayerMatchFhalfBallRecoveries")
                         .HasColumnType("int");
 
                     b.Property<int?>("PlayerMatchFhalfLbp")
@@ -521,22 +523,22 @@ namespace ClubBrugge.Erp.Application.Migrations
                     b.Property<int?>("PlayerMatchFhalfPasses360")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PlayerMatchForwardPasses")
+                    b.Property<int>("PlayerMatchForwardPasses")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PlayerMatchFouls")
+                    b.Property<int>("PlayerMatchFouls")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PlayerMatchFoulsWon")
+                    b.Property<int>("PlayerMatchFoulsWon")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PlayerMatchGoals")
+                    b.Property<int>("PlayerMatchGoals")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PlayerMatchInterceptions")
+                    b.Property<int>("PlayerMatchInterceptions")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PlayerMatchKeyPasses")
+                    b.Property<int>("PlayerMatchKeyPasses")
                         .HasColumnType("int");
 
                     b.Property<double?>("PlayerMatchLbp")
@@ -566,40 +568,40 @@ namespace ClubBrugge.Erp.Application.Migrations
                     b.Property<int?>("PlayerMatchLbpToSpace5Received")
                         .HasColumnType("int");
 
-                    b.Property<double?>("PlayerMatchLongBallRatio")
+                    b.Property<double>("PlayerMatchLongBallRatio")
                         .HasColumnType("float");
 
-                    b.Property<int?>("PlayerMatchLongBalls")
+                    b.Property<int>("PlayerMatchLongBalls")
                         .HasColumnType("int");
 
-                    b.Property<double?>("PlayerMatchMinutes")
+                    b.Property<double>("PlayerMatchMinutes")
                         .HasColumnType("float");
 
-                    b.Property<int?>("PlayerMatchNpGoals")
+                    b.Property<int>("PlayerMatchNpGoals")
                         .HasColumnType("int");
 
-                    b.Property<double?>("PlayerMatchNpPsxg")
+                    b.Property<double>("PlayerMatchNpPsxg")
                         .HasColumnType("float");
 
-                    b.Property<int?>("PlayerMatchNpShots")
+                    b.Property<int>("PlayerMatchNpShots")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PlayerMatchNpShotsOnTarget")
+                    b.Property<int>("PlayerMatchNpShotsOnTarget")
                         .HasColumnType("int");
 
-                    b.Property<double?>("PlayerMatchNpXg")
+                    b.Property<double>("PlayerMatchNpXg")
                         .HasColumnType("float");
 
-                    b.Property<double?>("PlayerMatchNpXgPerShot")
+                    b.Property<double>("PlayerMatchNpXgPerShot")
                         .HasColumnType("float");
 
-                    b.Property<double?>("PlayerMatchObv")
+                    b.Property<double>("PlayerMatchObv")
                         .HasColumnType("float");
 
-                    b.Property<double?>("PlayerMatchObvDefensiveAction")
+                    b.Property<double>("PlayerMatchObvDefensiveAction")
                         .HasColumnType("float");
 
-                    b.Property<double?>("PlayerMatchObvDribbleCarry")
+                    b.Property<double>("PlayerMatchObvDribbleCarry")
                         .HasColumnType("float");
 
                     b.Property<double?>("PlayerMatchObvGk")
@@ -608,164 +610,164 @@ namespace ClubBrugge.Erp.Application.Migrations
                     b.Property<double?>("PlayerMatchObvLbp")
                         .HasColumnType("float");
 
-                    b.Property<double?>("PlayerMatchObvPass")
+                    b.Property<double>("PlayerMatchObvPass")
                         .HasColumnType("float");
 
                     b.Property<double?>("PlayerMatchObvPasses360")
                         .HasColumnType("float");
 
-                    b.Property<double?>("PlayerMatchObvShot")
+                    b.Property<double>("PlayerMatchObvShot")
                         .HasColumnType("float");
 
-                    b.Property<int?>("PlayerMatchOpAssists")
+                    b.Property<int>("PlayerMatchOpAssists")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PlayerMatchOpF3BackwardPasses")
+                    b.Property<int>("PlayerMatchOpF3BackwardPasses")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PlayerMatchOpF3ForwardPasses")
+                    b.Property<int>("PlayerMatchOpF3ForwardPasses")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PlayerMatchOpF3Passes")
+                    b.Property<int>("PlayerMatchOpF3Passes")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PlayerMatchOpF3SidewaysPasses")
+                    b.Property<int>("PlayerMatchOpF3SidewaysPasses")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PlayerMatchOpKeyPasses")
+                    b.Property<int>("PlayerMatchOpKeyPasses")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PlayerMatchOpPasses")
+                    b.Property<int>("PlayerMatchOpPasses")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PlayerMatchOpPassesIntoBox")
+                    b.Property<int>("PlayerMatchOpPassesIntoBox")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PlayerMatchOpShots")
+                    b.Property<int>("PlayerMatchOpShots")
                         .HasColumnType("int");
 
-                    b.Property<double?>("PlayerMatchOpXa")
+                    b.Property<double>("PlayerMatchOpXa")
                         .HasColumnType("float");
 
-                    b.Property<double?>("PlayerMatchOpXgbuildup")
+                    b.Property<double>("PlayerMatchOpXgbuildup")
                         .HasColumnType("float");
 
-                    b.Property<double?>("PlayerMatchOpXgbuildupPerPossession")
+                    b.Property<double>("PlayerMatchOpXgbuildupPerPossession")
                         .HasColumnType("float");
 
-                    b.Property<double?>("PlayerMatchOpXgchain")
+                    b.Property<double>("PlayerMatchOpXgchain")
                         .HasColumnType("float");
 
-                    b.Property<double?>("PlayerMatchOpXgchainPerPossession")
+                    b.Property<double>("PlayerMatchOpXgchainPerPossession")
                         .HasColumnType("float");
 
-                    b.Property<int?>("PlayerMatchPasses")
+                    b.Property<int>("PlayerMatchPasses")
                         .HasColumnType("int");
 
                     b.Property<int?>("PlayerMatchPasses360")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PlayerMatchPassesInsideBox")
+                    b.Property<int>("PlayerMatchPassesInsideBox")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PlayerMatchPassesIntoBox")
+                    b.Property<int>("PlayerMatchPassesIntoBox")
                         .HasColumnType("int");
 
-                    b.Property<double?>("PlayerMatchPassingRatio")
+                    b.Property<double>("PlayerMatchPassingRatio")
                         .HasColumnType("float");
 
-                    b.Property<int?>("PlayerMatchPenaltiesConceded")
+                    b.Property<int>("PlayerMatchPenaltiesConceded")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PlayerMatchPenaltiesFaced")
+                    b.Property<int>("PlayerMatchPenaltiesFaced")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PlayerMatchPenaltiesWon")
+                    b.Property<int>("PlayerMatchPenaltiesWon")
                         .HasColumnType("int");
 
-                    b.Property<double?>("PlayerMatchPossession")
+                    b.Property<double>("PlayerMatchPossession")
                         .HasColumnType("float");
 
-                    b.Property<double?>("PlayerMatchPressureDurationAvg")
+                    b.Property<double>("PlayerMatchPressureDurationAvg")
                         .HasColumnType("float");
 
-                    b.Property<double?>("PlayerMatchPressureDurationTotal")
+                    b.Property<double>("PlayerMatchPressureDurationTotal")
                         .HasColumnType("float");
 
-                    b.Property<int?>("PlayerMatchPressureRegains")
+                    b.Property<int>("PlayerMatchPressureRegains")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PlayerMatchPressuredActionFails")
+                    b.Property<int>("PlayerMatchPressuredActionFails")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PlayerMatchPressuredLongBalls")
+                    b.Property<int>("PlayerMatchPressuredLongBalls")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PlayerMatchPressures")
+                    b.Property<int>("PlayerMatchPressures")
                         .HasColumnType("int");
 
-                    b.Property<double?>("PlayerMatchShotTouchRatio")
+                    b.Property<double>("PlayerMatchShotTouchRatio")
                         .HasColumnType("float");
 
-                    b.Property<int?>("PlayerMatchShotsBlocked")
+                    b.Property<int>("PlayerMatchShotsBlocked")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PlayerMatchSidewaysPasses")
+                    b.Property<int>("PlayerMatchSidewaysPasses")
                         .HasColumnType("int");
 
-                    b.Property<double?>("PlayerMatchSpXa")
+                    b.Property<double>("PlayerMatchSpXa")
                         .HasColumnType("float");
 
-                    b.Property<int?>("PlayerMatchSuccessfulAerials")
+                    b.Property<int>("PlayerMatchSuccessfulAerials")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PlayerMatchSuccessfulCrosses")
+                    b.Property<int>("PlayerMatchSuccessfulCrosses")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PlayerMatchSuccessfulLongBalls")
+                    b.Property<int>("PlayerMatchSuccessfulLongBalls")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PlayerMatchSuccessfulPasses")
+                    b.Property<int>("PlayerMatchSuccessfulPasses")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PlayerMatchTackles")
+                    b.Property<int>("PlayerMatchTackles")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PlayerMatchThroughBalls")
+                    b.Property<int>("PlayerMatchThroughBalls")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PlayerMatchTouches")
+                    b.Property<int>("PlayerMatchTouches")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PlayerMatchTouchesInsideBox")
+                    b.Property<int>("PlayerMatchTouchesInsideBox")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PlayerMatchTurnovers")
+                    b.Property<int>("PlayerMatchTurnovers")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PlayerMatchUnpressuredLongBalls")
+                    b.Property<int>("PlayerMatchUnpressuredLongBalls")
                         .HasColumnType("int");
 
-                    b.Property<double?>("PlayerMatchXa")
+                    b.Property<double>("PlayerMatchXa")
                         .HasColumnType("float");
 
-                    b.Property<double?>("PlayerMatchXgbuildup")
+                    b.Property<double>("PlayerMatchXgbuildup")
                         .HasColumnType("float");
 
-                    b.Property<double?>("PlayerMatchXgbuildupPerPossession")
+                    b.Property<double>("PlayerMatchXgbuildupPerPossession")
                         .HasColumnType("float");
 
-                    b.Property<double?>("PlayerMatchXgchain")
+                    b.Property<double>("PlayerMatchXgchain")
                         .HasColumnType("float");
 
-                    b.Property<double?>("PlayerMatchXgchainPerPossession")
+                    b.Property<double>("PlayerMatchXgchainPerPossession")
                         .HasColumnType("float");
 
                     b.Property<string>("PlayerName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TeamId")
+                    b.Property<int>("TeamId")
                         .HasColumnType("int");
 
                     b.Property<string>("TeamName")

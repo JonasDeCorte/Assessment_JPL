@@ -4,7 +4,7 @@
 
 namespace ClubBrugge.Erp.Application.Migrations
 {
-    public partial class InitialDataschema : Migration
+    public partial class InitialDatabaseSchema : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,6 +14,7 @@ namespace ClubBrugge.Erp.Application.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    CompetitionStageId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -25,48 +26,51 @@ namespace ClubBrugge.Erp.Application.Migrations
                 name: "Countries",
                 columns: table => new
                 {
-                    CountryId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    CountryId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Countries", x => x.CountryId);
+                    table.PrimaryKey("PK_Countries", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Seasons",
                 columns: table => new
                 {
-                    SeasonId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    SeasonId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Seasons", x => x.SeasonId);
+                    table.PrimaryKey("PK_Seasons", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "AwayTeams",
                 columns: table => new
                 {
-                    AwayTeamId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    AwayTeamId = table.Column<int>(type: "int", nullable: false),
                     AwayTeamName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AwayTeamGender = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AwayTeamYouth = table.Column<bool>(type: "bit", nullable: false),
-                    AwayTeamGroup = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AwayTeamGroup = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CountryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AwayTeams", x => x.AwayTeamId);
+                    table.PrimaryKey("PK_AwayTeams", x => x.Id);
                     table.ForeignKey(
                         name: "FK_AwayTeams_Countries_CountryId",
                         column: x => x.CountryId,
                         principalTable: "Countries",
-                        principalColumn: "CountryId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -74,42 +78,44 @@ namespace ClubBrugge.Erp.Application.Migrations
                 name: "Competitions",
                 columns: table => new
                 {
-                    CompetitionId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    CompetitionId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CountryName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CountryId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Competitions", x => x.CompetitionId);
+                    table.PrimaryKey("PK_Competitions", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Competitions_Countries_CountryId",
                         column: x => x.CountryId,
                         principalTable: "Countries",
-                        principalColumn: "CountryId");
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
                 name: "HomeTeams",
                 columns: table => new
                 {
-                    HomeTeamId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    HomeTeamId = table.Column<int>(type: "int", nullable: false),
                     HomeTeamName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     HomeTeamGender = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     HomeTeamYouth = table.Column<bool>(type: "bit", nullable: false),
-                    HomeTeamGroup = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    HomeTeamGroup = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CountryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_HomeTeams", x => x.HomeTeamId);
+                    table.PrimaryKey("PK_HomeTeams", x => x.Id);
                     table.ForeignKey(
                         name: "FK_HomeTeams_Countries_CountryId",
                         column: x => x.CountryId,
                         principalTable: "Countries",
-                        principalColumn: "CountryId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -117,19 +123,20 @@ namespace ClubBrugge.Erp.Application.Migrations
                 name: "Referees",
                 columns: table => new
                 {
-                    RefereeId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    RefereeId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CountryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Referees", x => x.RefereeId);
+                    table.PrimaryKey("PK_Referees", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Referees_Countries_CountryId",
                         column: x => x.CountryId,
                         principalTable: "Countries",
-                        principalColumn: "CountryId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -137,19 +144,20 @@ namespace ClubBrugge.Erp.Application.Migrations
                 name: "Stadiums",
                 columns: table => new
                 {
-                    StadiumId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    StadiumId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CountryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Stadiums", x => x.StadiumId);
+                    table.PrimaryKey("PK_Stadiums", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Stadiums_Countries_CountryId",
                         column: x => x.CountryId,
                         principalTable: "Countries",
-                        principalColumn: "CountryId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -157,10 +165,11 @@ namespace ClubBrugge.Erp.Application.Migrations
                 name: "Managers",
                 columns: table => new
                 {
-                    ManagerId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    ManagerId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Nickname = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Nickname = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DateOfBirth = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CountryId = table.Column<int>(type: "int", nullable: false),
                     AwayTeamId = table.Column<int>(type: "int", nullable: true),
@@ -168,31 +177,32 @@ namespace ClubBrugge.Erp.Application.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Managers", x => x.ManagerId);
+                    table.PrimaryKey("PK_Managers", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Managers_AwayTeams_AwayTeamId",
                         column: x => x.AwayTeamId,
                         principalTable: "AwayTeams",
-                        principalColumn: "AwayTeamId");
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Managers_Countries_CountryId",
                         column: x => x.CountryId,
                         principalTable: "Countries",
-                        principalColumn: "CountryId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Managers_HomeTeams_HomeTeamId",
                         column: x => x.HomeTeamId,
                         principalTable: "HomeTeams",
-                        principalColumn: "HomeTeamId");
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
                 name: "Matches",
                 columns: table => new
                 {
-                    MatchId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    MatchId = table.Column<int>(type: "int", nullable: false),
                     MatchDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     KickOff = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CompetitionId = table.Column<int>(type: "int", nullable: false),
@@ -211,22 +221,23 @@ namespace ClubBrugge.Erp.Application.Migrations
                     LastUpdated360 = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CompetitionStageId = table.Column<int>(type: "int", nullable: false),
                     StadiumId = table.Column<int>(type: "int", nullable: false),
-                    RefereeId = table.Column<int>(type: "int", nullable: false)
+                    RefereeId = table.Column<int>(type: "int", nullable: false),
+                    MatchWeek = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Matches", x => x.MatchId);
+                    table.PrimaryKey("PK_Matches", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Matches_AwayTeams_AwayTeamId",
                         column: x => x.AwayTeamId,
                         principalTable: "AwayTeams",
-                        principalColumn: "AwayTeamId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Matches_Competitions_CompetitionId",
                         column: x => x.CompetitionId,
                         principalTable: "Competitions",
-                        principalColumn: "CompetitionId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Matches_CompetitionStages_CompetitionStageId",
@@ -238,25 +249,25 @@ namespace ClubBrugge.Erp.Application.Migrations
                         name: "FK_Matches_HomeTeams_HomeTeamId",
                         column: x => x.HomeTeamId,
                         principalTable: "HomeTeams",
-                        principalColumn: "HomeTeamId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Matches_Referees_RefereeId",
                         column: x => x.RefereeId,
                         principalTable: "Referees",
-                        principalColumn: "RefereeId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Matches_Seasons_SeasonId",
                         column: x => x.SeasonId,
                         principalTable: "Seasons",
-                        principalColumn: "SeasonId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Matches_Stadiums_StadiumId",
                         column: x => x.StadiumId,
                         principalTable: "Stadiums",
-                        principalColumn: "StadiumId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClubBrugge.Erp.Application.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230428112231_InitialDataschemaNullableGroup")]
-    partial class InitialDataschemaNullableGroup
+    [Migration("20230429120158_InitialDatabaseSchema")]
+    partial class InitialDatabaseSchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,19 +26,21 @@ namespace ClubBrugge.Erp.Application.Migrations
 
             modelBuilder.Entity("ClubBrugge.Erp.Domain.Entities.AwayTeam", b =>
                 {
-                    b.Property<int>("AwayTeamId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AwayTeamId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("AwayTeamGender")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("AwayTeamGroup")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("AwayTeamId")
+                        .HasColumnType("int");
 
                     b.Property<string>("AwayTeamName")
                         .IsRequired()
@@ -50,7 +52,7 @@ namespace ClubBrugge.Erp.Application.Migrations
                     b.Property<int>("CountryId")
                         .HasColumnType("int");
 
-                    b.HasKey("AwayTeamId");
+                    b.HasKey("Id");
 
                     b.HasIndex("CountryId");
 
@@ -59,11 +61,14 @@ namespace ClubBrugge.Erp.Application.Migrations
 
             modelBuilder.Entity("ClubBrugge.Erp.Domain.Entities.Competition", b =>
                 {
-                    b.Property<int>("CompetitionId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CompetitionId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("CompetitionId")
+                        .HasColumnType("int");
 
                     b.Property<int?>("CountryId")
                         .HasColumnType("int");
@@ -76,7 +81,7 @@ namespace ClubBrugge.Erp.Application.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("CompetitionId");
+                    b.HasKey("Id");
 
                     b.HasIndex("CountryId");
 
@@ -91,6 +96,9 @@ namespace ClubBrugge.Erp.Application.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("CompetitionStageId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -102,28 +110,31 @@ namespace ClubBrugge.Erp.Application.Migrations
 
             modelBuilder.Entity("ClubBrugge.Erp.Domain.Entities.Country", b =>
                 {
-                    b.Property<int>("CountryId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CountryId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("CountryId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("CountryId");
+                    b.HasKey("Id");
 
                     b.ToTable("Countries");
                 });
 
             modelBuilder.Entity("ClubBrugge.Erp.Domain.Entities.HomeTeam", b =>
                 {
-                    b.Property<int>("HomeTeamId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("HomeTeamId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("CountryId")
                         .HasColumnType("int");
@@ -135,6 +146,9 @@ namespace ClubBrugge.Erp.Application.Migrations
                     b.Property<string>("HomeTeamGroup")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("HomeTeamId")
+                        .HasColumnType("int");
+
                     b.Property<string>("HomeTeamName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -142,7 +156,7 @@ namespace ClubBrugge.Erp.Application.Migrations
                     b.Property<bool>("HomeTeamYouth")
                         .HasColumnType("bit");
 
-                    b.HasKey("HomeTeamId");
+                    b.HasKey("Id");
 
                     b.HasIndex("CountryId");
 
@@ -151,11 +165,11 @@ namespace ClubBrugge.Erp.Application.Migrations
 
             modelBuilder.Entity("ClubBrugge.Erp.Domain.Entities.Manager", b =>
                 {
-                    b.Property<int>("ManagerId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ManagerId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int?>("AwayTeamId")
                         .HasColumnType("int");
@@ -170,15 +184,17 @@ namespace ClubBrugge.Erp.Application.Migrations
                     b.Property<int?>("HomeTeamId")
                         .HasColumnType("int");
 
+                    b.Property<int>("ManagerId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Nickname")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ManagerId");
+                    b.HasKey("Id");
 
                     b.HasIndex("AwayTeamId");
 
@@ -191,11 +207,11 @@ namespace ClubBrugge.Erp.Application.Migrations
 
             modelBuilder.Entity("ClubBrugge.Erp.Domain.Entities.Match", b =>
                 {
-                    b.Property<int>("MatchId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MatchId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int?>("Attendance")
                         .HasColumnType("int");
@@ -237,6 +253,9 @@ namespace ClubBrugge.Erp.Application.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("MatchId")
+                        .HasColumnType("int");
+
                     b.Property<string>("MatchStatus")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -244,6 +263,9 @@ namespace ClubBrugge.Erp.Application.Migrations
                     b.Property<string>("MatchStatus360")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("MatchWeek")
+                        .HasColumnType("int");
 
                     b.Property<bool>("NeutralGround")
                         .HasColumnType("bit");
@@ -261,7 +283,7 @@ namespace ClubBrugge.Erp.Application.Migrations
                     b.Property<int>("StadiumId")
                         .HasColumnType("int");
 
-                    b.HasKey("MatchId");
+                    b.HasKey("Id");
 
                     b.HasIndex("AwayTeamId");
 
@@ -282,11 +304,11 @@ namespace ClubBrugge.Erp.Application.Migrations
 
             modelBuilder.Entity("ClubBrugge.Erp.Domain.Entities.Referee", b =>
                 {
-                    b.Property<int>("RefereeId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RefereeId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("CountryId")
                         .HasColumnType("int");
@@ -295,7 +317,10 @@ namespace ClubBrugge.Erp.Application.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("RefereeId");
+                    b.Property<int>("RefereeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("CountryId");
 
@@ -304,28 +329,31 @@ namespace ClubBrugge.Erp.Application.Migrations
 
             modelBuilder.Entity("ClubBrugge.Erp.Domain.Entities.Season", b =>
                 {
-                    b.Property<int>("SeasonId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SeasonId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("SeasonId");
+                    b.Property<int>("SeasonId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.ToTable("Seasons");
                 });
 
             modelBuilder.Entity("ClubBrugge.Erp.Domain.Entities.Stadium", b =>
                 {
-                    b.Property<int>("StadiumId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StadiumId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("CountryId")
                         .HasColumnType("int");
@@ -334,7 +362,10 @@ namespace ClubBrugge.Erp.Application.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("StadiumId");
+                    b.Property<int>("StadiumId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("CountryId");
 
