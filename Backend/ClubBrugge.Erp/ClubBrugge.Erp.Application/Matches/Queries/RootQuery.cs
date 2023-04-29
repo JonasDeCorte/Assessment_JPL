@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace ClubBrugge.Erp.Application.Matches.Queries
 {
-    public class GetMatches : ObjectType
+    public class RootQuery : ObjectType
     {
-
-        
         protected override void Configure(IObjectTypeDescriptor descriptor)
         {
             descriptor.Field("matches")
@@ -31,6 +29,19 @@ namespace ClubBrugge.Erp.Application.Matches.Queries
                         .ToListAsync();
 
                     return matches;
+                });
+            descriptor.Field("matchPlayerStats")
+                .Type<ListType<NonNullType<Domain.Dtos.MatchPlayerStatsType>>>()
+                .Argument("matchId", a => a.Type<NonNullType<IdType>>())
+                .Resolve(async ctx =>
+                {
+                    var dbContext = ctx.Service<ApplicationDbContext>();
+                    var matchId = ctx.ArgumentValue<int>("matchId");
+                    var matchPlayerStats = await dbContext.MatchPlayerStats
+                        .Where(mps => mps.MatchId == matchId)
+                        .ToListAsync();
+
+                    return matchPlayerStats;
                 });
         }
     }
