@@ -65,4 +65,7 @@
     margin-top: 0.5rem;
     color: #666666;
   }
-  
+  .matches .grid-wrapper a {
+    text-decoration: none;
+    color: inherit;
+  }

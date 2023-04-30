@@ -2,6 +2,8 @@ import React from 'react';
 import { useQuery } from '@apollo/client';
 import { MATCHES_QUERY } from '../matchesQuery.tsx';
 import './matches.overview.css';
+import { Link } from 'react-router-dom';
+
 const Matches: React.FC = () => {
   const { loading, error, data } = useQuery(MATCHES_QUERY);
 
@@ -15,9 +17,13 @@ const Matches: React.FC = () => {
       </div>
       <div className="grid-wrapper">
         {data.matches.map((match: any) => (
+          <Link to={`/match/${match.matchId}`}>
           <div key={match.matchId} className="matches__match">
             <div className="matches__teams">
               <h2 className="matches__team">{match.homeTeam.homeTeamName}</h2>
+              <h2 className="matches__team">{match.homeScore}</h2>
+              - 
+              <h2 className="matches__team">{match.awayScore}</h2>
               <h2 className="matches__team">{match.awayTeam.awayTeamName}</h2>
             </div>
             <div className="matches__info">
@@ -31,6 +37,7 @@ const Matches: React.FC = () => {
               <p className="matches__referee">{match.referee.name} ({match.referee.country.name})</p>
             </div>
           </div>
+          </Link>
         ))}
       </div>
     </div>
