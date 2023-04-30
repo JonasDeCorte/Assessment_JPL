@@ -26,6 +26,7 @@ namespace ClubBrugge.Erp.Application.Matches.Queries
                         .Include(m => m.CompetitionStage)
                         .Include(m => m.Stadium).ThenInclude(s => s.Country)
                         .Include(m => m.Referee).ThenInclude(r => r.Country)
+                        .OrderBy(x => x.MatchWeek)
                         .ToListAsync();
 
                     return matches;
@@ -39,6 +40,7 @@ namespace ClubBrugge.Erp.Application.Matches.Queries
                     var matchId = ctx.ArgumentValue<int>("matchId");
                     var matchPlayerStats = await dbContext.MatchPlayerStats
                         .Where(mps => mps.MatchId == matchId)
+                        .OrderBy(x => x.TeamName)
                         .ToListAsync();
 
                     return matchPlayerStats;
